@@ -76,8 +76,7 @@ class Company {
     ),
     ProductCategory(
       title: 'Tier 1 Solar Panels',
-      detail: 'Tier 1 monocrystalline modules across a range of wattages, '
-          'sourced from established manufacturers.',
+      detail: 'Premium Tier 1 solar panels from world-renowned manufacturers, engineered for maximum efficiency, durability, and reliable energy production.',
       icon: 'panel',
     ),
     ProductCategory(
