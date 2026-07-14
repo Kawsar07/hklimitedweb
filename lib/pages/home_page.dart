@@ -380,7 +380,7 @@ class _CtaBanner extends StatelessWidget {
             SizedBox(width: isMobile ? 0 : 22, height: isMobile ? 18 : 0),
             Expanded(
               child: Text(
-                'Looking for a reliable solar hardware supplier in Bangladesh?',
+                  'Looking for reliable solar hardware & accessories in Bangladesh?',
                 style: Theme.of(context).textTheme.headlineMedium?.copyWith(color: Colors.white),
               ),
             ),
