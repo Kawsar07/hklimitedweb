@@ -8,6 +8,9 @@ class Company {
   static const String tagline =
       'Global solar sourcing, delivered to Bangladesh and beyond.';
   static const String hq = 'Hong Kong';
+  static const String registeredAddress =
+      "Unit 909, Prosperity Millennia Plaza, 663 King's Road, "
+      'Quarry Bay, Hong Kong';
   static const String founded = '2026';
   static const String phone = '+852-61880715';
   static const String email = 'info@solarpvhk.com';

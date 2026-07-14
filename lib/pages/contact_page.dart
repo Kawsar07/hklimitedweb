@@ -127,8 +127,8 @@ class _ContactInfoCard extends StatelessWidget {
           ),
           const _InfoRow(
             icon: Icons.location_on_rounded,
-            label: 'Headquarters',
-            value: Company.hq,
+            label: 'Registered Address',
+            value: Company.registeredAddress,
           ),
           const _InfoRow(
             icon: Icons.language_rounded,
@@ -165,16 +165,18 @@ class _InfoRow extends StatelessWidget {
               child: Icon(icon, color: AppColors.amber, size: 19),
             ),
             const SizedBox(width: 14),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(label, style: const TextStyle(color: AppColors.inkMuted, fontSize: 12.5)),
-                const SizedBox(height: 2),
-                Text(
-                  value,
-                  style: const TextStyle(color: AppColors.ink, fontWeight: FontWeight.w700, fontSize: 15),
-                ),
-              ],
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(label, style: const TextStyle(color: AppColors.inkMuted, fontSize: 12.5)),
+                  const SizedBox(height: 2),
+                  Text(
+                    value,
+                    style: const TextStyle(color: AppColors.ink, fontWeight: FontWeight.w700, fontSize: 15),
+                  ),
+                ],
+              ),
             ),
           ],
         ),
