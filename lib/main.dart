@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_web_plugins/flutter_web_plugins.dart';
 import 'package:go_router/go_router.dart';
 import 'core/app_theme.dart';
 import 'core/content.dart';
@@ -10,6 +11,9 @@ import 'pages/products_page.dart';
 import 'pages/why_us_page.dart';
 
 void main() {
+  // Removes the "#" from web URLs (e.g. /#/home -> /home) by switching
+  // Flutter web from hash-based routing to normal path-based routing.
+  usePathUrlStrategy();
   runApp(
     // ProviderScope must sit above everything that reads a Riverpod
     // provider — the contact form's state lives behind this.
