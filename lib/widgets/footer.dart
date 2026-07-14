@@ -175,7 +175,7 @@ class _BottomBar extends StatelessWidget {
           constraints: const BoxConstraints(maxWidth: 1240),
           child: Padding(
             padding: EdgeInsets.fromLTRB(hPad, 22, hPad, 22),
-            child: Wrap(
+            child: const Wrap(
               alignment: WrapAlignment.spaceBetween,
               crossAxisAlignment: WrapCrossAlignment.center,
               runSpacing: 12,
@@ -184,18 +184,12 @@ class _BottomBar extends StatelessWidget {
                   runSpacing: 4,
                   children: [
                     Text(
-                      '\u00a9 ${Company.founded}\u2013${DateTime.now().year} ${Company.name}. '
+                      '\u00a9 ${Company.founded} ${Company.name}. '
                       'All rights reserved.',
-                      style: const TextStyle(color: Colors.white38, fontSize: 12.5),
-                    ),
-                    const SizedBox(width: 14),
-                    Text(
-                      'Built in Hong Kong, for Bangladesh.',
-                      style: TextStyle(color: Colors.white.withOpacity(0.24), fontSize: 12.5),
+                      style: TextStyle(color: Colors.white38, fontSize: 12.5),
                     ),
                   ],
                 ),
-                _BackToTop(onTap: () => _scrollToTop(context)),
               ],
             ),
           ),
@@ -205,49 +199,7 @@ class _BottomBar extends StatelessWidget {
   }
 }
 
-class _BackToTop extends StatelessWidget {
-  final VoidCallback onTap;
-  const _BackToTop({required this.onTap});
 
-  @override
-  Widget build(BuildContext context) {
-    return HoverBuilder(
-      builder: (context, hovering) {
-        return GestureDetector(
-          onTap: onTap,
-          child: AnimatedContainer(
-            duration: const Duration(milliseconds: 160),
-            padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 9),
-            decoration: BoxDecoration(
-              color: hovering ? AppColors.amber : Colors.white.withOpacity(0.06),
-              borderRadius: BorderRadius.circular(999),
-              border: Border.all(color: hovering ? AppColors.amberDeep : Colors.white24),
-            ),
-            child: Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Icon(
-                  Icons.arrow_upward_rounded,
-                  size: 14,
-                  color: hovering ? AppColors.navy : Colors.white70,
-                ),
-                const SizedBox(width: 6),
-                Text(
-                  'Back to top',
-                  style: TextStyle(
-                    color: hovering ? AppColors.navy : Colors.white70,
-                    fontSize: 12.5,
-                    fontWeight: FontWeight.w600,
-                  ),
-                ),
-              ],
-            ),
-          ),
-        );
-      },
-    );
-  }
-}
 
 class _SocialRow extends StatelessWidget {
   const _SocialRow();
