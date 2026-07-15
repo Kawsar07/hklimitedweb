@@ -220,9 +220,9 @@ class _Highlights extends StatelessWidget {
     ),
     (
       Icons.handshake_rounded,
-      'Built for Bangladesh',
+      'Built for the world',
       'A single reliable point of contact for installers, EPCs and '
-          'retailers.',
+          'retailers, wherever you are.',
     ),
   ];
 
@@ -380,7 +380,7 @@ class _CtaBanner extends StatelessWidget {
             SizedBox(width: isMobile ? 0 : 22, height: isMobile ? 18 : 0),
             Expanded(
               child: Text(
-                  'Looking for reliable solar hardware & accessories in Bangladesh?',
+                  'Looking for reliable solar hardware & accessories, anywhere in the world?',
                 style: Theme.of(context).textTheme.headlineMedium?.copyWith(color: Colors.white),
               ),
             ),

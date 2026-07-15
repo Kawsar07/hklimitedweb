@@ -145,15 +145,15 @@ class _TargetMarkets extends StatelessWidget {
     final isMobile = Responsive.isMobile(context);
 
     final primary = _MarketCard(
-      title: 'Primary Market',
-      body: 'Bangladesh \u2014 installers, EPC companies, retailers and '
-          'end-users.',
+      title: 'Global Market',
+      body: 'Worldwide \u2014 installers, EPC companies, retailers and '
+          'end-users in every market we serve.',
       emphasize: true,
     );
     final secondary = _MarketCard(
-      title: 'Secondary Markets',
-      body: 'Additional countries as the sourcing and distribution '
-          'network expands.',
+      title: 'Expanding Reach',
+      body: 'New countries added continuously as the sourcing and '
+          'distribution network grows.',
       emphasize: false,
     );
 

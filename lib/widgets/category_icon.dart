@@ -12,6 +12,10 @@ IconData categoryIcon(String key) {
       return Icons.cable_rounded;
     case 'accessory':
       return Icons.settings_input_component_rounded;
+    case 'controller':
+      return Icons.tune_rounded;
+    case 'scada':
+      return Icons.monitor_heart_rounded;
     default:
       return Icons.bolt_rounded;
   }

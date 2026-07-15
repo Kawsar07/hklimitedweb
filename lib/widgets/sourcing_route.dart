@@ -16,6 +16,7 @@ class SourcingRoute extends StatelessWidget {
       ('China', 'High-volume manufacturing'),
       ('Germany', 'Engineering-grade quality'),
       ('Netherlands', 'Specialised accessories'),
+      ('Expanding', 'New countries added worldwide'),
     ];
 
     final originNodes = [
@@ -29,7 +30,7 @@ class SourcingRoute extends StatelessWidget {
     );
 
     final destination = _RouteNode(
-      title: 'Bangladesh',
+      title: 'Worldwide',
       subtitle: 'Installers \u00b7 EPCs \u00b7 Retailers',
       emphasize: false,
       isDestination: true,

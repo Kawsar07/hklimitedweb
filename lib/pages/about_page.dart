@@ -44,7 +44,7 @@ class _PageHeader extends StatelessWidget {
             ),
             const SizedBox(height: 12),
             const Text(
-              'A new sourcing house for solar hardware, built for Bangladesh.',
+              'A new sourcing house for solar hardware, built for the world.',
               style: TextStyle(color: Colors.white70, fontSize: 16),
             ),
           ],
@@ -82,7 +82,7 @@ class _Intro extends StatelessWidget {
           const SizedBox(height: 6),
           Text('Launching in ${Company.founded}', style: Theme.of(context).textTheme.bodyMedium),
           const SizedBox(height: 6),
-          Text('Primary market: Bangladesh', style: Theme.of(context).textTheme.bodyMedium),
+          Text('Primary market: Worldwide', style: Theme.of(context).textTheme.bodyMedium),
         ],
       ),
     );

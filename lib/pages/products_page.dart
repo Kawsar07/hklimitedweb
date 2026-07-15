@@ -24,9 +24,9 @@ class ProductsPage extends StatelessWidget {
               const SectionHeading(
                 eyebrow: 'What we supply',
                 title: 'Product categories',
-                subtitle: 'A catalogue built around what solar projects in '
-                    'Bangladesh actually need \u2014 from the panel to the '
-                    'last MC4 connector.',
+                subtitle: 'A catalogue built around what solar and '
+                    'renewable energy projects worldwide actually need '
+                    '\u2014 from the panel to the last MC4 connector.',
               ),
               const SizedBox(height: 28),
               LayoutBuilder(

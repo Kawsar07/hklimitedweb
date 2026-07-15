@@ -6,7 +6,7 @@ class Company {
   static const String name = 'Solar PV HK Limited';
   static const String shortName = 'Solar PV HK';
   static const String tagline =
-      'Global solar sourcing, delivered to Bangladesh and beyond.';
+      'Global solar sourcing, delivered worldwide.';
   static const String hq = 'Hong Kong';
   static const String registeredAddress =
       "Unit 909, Prosperity Millennia Plaza, 663 King's Road, "
@@ -31,40 +31,43 @@ class Company {
 
   static const String heroSubhead =
       'We source renewable energy hardware directly from trusted '
-      'manufacturers in China, Germany and the Netherlands, and make it '
-      'reliably available to installers, EPC companies and retailers in '
-      'Bangladesh — with the same sourcing network built to grow further.';
+      'manufacturers around the world, and make it reliably available to '
+      'installers, EPC companies and retailers across every market we '
+      'serve — with authentic products, honest pricing and a sourcing '
+      'network built to keep growing worldwide.';
 
   static const String aboutIntro =
       'Solar PV HK Limited is a Hong Kong-based company launching in $founded '
       'with one goal: make sourcing solar and renewable energy hardware '
-      'simple. Reliable, good-quality solar equipment is still hard to find '
-      'in many growing markets. We close that gap by working directly with '
-      'trusted manufacturers worldwide and putting their products within '
-      'easy reach of customers in Bangladesh and beyond.';
+      'simple, anywhere in the world. Reliable, good-quality solar equipment '
+      'is still hard to find in many growing markets. We close that gap by '
+      'working directly with trusted manufacturers worldwide and putting '
+      'their products within easy reach of customers across the globe.';
 
   static const String mission =
-      'Make renewable energy hardware sourcing simpler and more accessible, '
-      'by connecting trusted overseas manufacturers directly with '
-      'installers, EPC companies and retailers who need reliable supply.';
+      'Make renewable energy hardware sourcing simpler and more accessible '
+      'worldwide, by connecting trusted overseas manufacturers directly '
+      'with installers, EPC companies and retailers who need reliable, '
+      'authentic supply at a fair price.';
 
   static const String vision =
-      'To become the most trusted sourcing partner for solar and '
-      'renewable energy hardware in Bangladesh, and a dependable bridge '
-      'between global manufacturers and South Asia\u2019s growing clean '
-      'energy market.';
+      'To become the most trusted global sourcing partner for solar and '
+      'renewable energy hardware, and a dependable bridge between '
+      'world-class manufacturers and the world\u2019s growing clean energy '
+      'markets.';
 
   static const List<String> businessModel = [
     'Source renewable energy products and accessories directly from '
-        'manufacturers in China, Germany, the Netherlands and other countries.',
+        'trusted manufacturers in China, Germany, the Netherlands and other '
+        'countries worldwide.',
     'Make renewable energy hardware sourcing simpler and more accessible '
         'for customers through a single, reliable point of contact.',
-    'Distribute and supply to Bangladesh, expanding to other countries as '
-        'the network grows.',
-    'Position the brand as a reliable, trusted supplier for solar '
-        'hardware and accessories.',
+    'Distribute and supply worldwide, continuously expanding into new '
+        'countries and regions as the network grows.',
+    'Position the brand as a reliable, trusted supplier of authentic solar '
+        'hardware and accessories at competitive prices.',
     'Build long-term relationships with overseas manufacturers for '
-        'consistent supply and competitive pricing.',
+        'consistent supply, faster delivery and competitive pricing.',
   ];
 
   static const List<ProductCategory> products = [
@@ -97,6 +100,18 @@ class Company {
           'related balance-of-system components.',
       icon: 'accessory',
     ),
+    ProductCategory(
+      title: 'Hybrid Controllers',
+      detail: 'Hybrid solar charge controllers and power controllers built '
+          'for seamless grid, battery and generator integration.',
+      icon: 'controller',
+    ),
+    ProductCategory(
+      title: 'SCADA Monitoring',
+      detail: 'SCADA and remote monitoring systems for real-time plant '
+          'performance, fault detection and unattended operation.',
+      icon: 'scada',
+    ),
   ];
 
   static const List<SourcingCountry> sourcingCountries = [
@@ -115,30 +130,37 @@ class Company {
       detail: 'Specialised accessories and cabling solutions.',
     ),
     SourcingCountry(
-      country: 'Expanding network',
-      detail: 'New sourcing countries added as reliable manufacturers '
-          'are identified.',
+      country: 'Worldwide Network',
+      detail: 'New sourcing countries added continuously as reliable '
+          'manufacturers are identified, extending our reach worldwide.',
     ),
   ];
 
   static const List<String> whyChooseUs = [
+    'Authentic products at low prices — every item sourced directly from '
+        'verified manufacturers, with no grey-market or counterfeit risk.',
+    'Faster delivery worldwide — established logistics routes get '
+        'hardware to installers, EPCs and retailers on time, wherever '
+        'they are.',
     'Direct manufacturer relationships — fewer middlemen, more consistent '
         'pricing and supply.',
-    'Multi-country sourcing across China, Germany and the Netherlands, so '
-        'you are never dependent on a single market.',
+    'Multi-country sourcing across China, Germany, the Netherlands and a '
+        'growing list of countries, so you are never dependent on a '
+        'single market.',
     'A single, reliable point of contact for installers, EPC companies '
-        'and retailers in Bangladesh.',
-    'Product range built around what regional projects actually need: '
-        'inverters, panels, structures, cabling and accessories.',
-    'A growing network, built from day one to extend beyond Bangladesh '
-        'as demand grows.',
+        'and retailers worldwide.',
+    'A full product range built around what solar and renewable energy '
+        'projects actually need: inverters, panels, structures, cabling, '
+        'hybrid controllers, SCADA monitoring and accessories.',
+    'A growing network, built from day one to serve and expand into new '
+        'markets worldwide.',
   ];
 
   static const List<StatItem> stats = [
     StatItem(value: founded, label: 'Founded'),
     StatItem(value: '3+', label: 'Sourcing countries'),
-    StatItem(value: '5', label: 'Product categories'),
-    StatItem(value: 'HK \u2192 BD', label: 'Primary trade route'),
+    StatItem(value: '7', label: 'Product categories'),
+    StatItem(value: 'HK \u2192 World', label: 'Global trade route'),
   ];
 
   static const List<NavItem> navItems = [
