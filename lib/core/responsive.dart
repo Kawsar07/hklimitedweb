@@ -28,34 +28,6 @@ class Responsive {
   }
 }
 
-/// Picks between mobile / tablet / desktop widgets. Falls back sensibly
-/// so callers never have to supply all three.
-class Responsive2Layout extends StatelessWidget {
-  final Widget mobile;
-  final Widget? tablet;
-  final Widget desktop;
-
-  const Responsive2Layout({
-    super.key,
-    required this.mobile,
-    this.tablet,
-    required this.desktop,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    final device = Responsive.deviceOf(context);
-    switch (device) {
-      case DeviceType.desktop:
-        return desktop;
-      case DeviceType.tablet:
-        return tablet ?? desktop;
-      case DeviceType.mobile:
-        return mobile;
-    }
-  }
-}
-
 /// Centers content and caps its width so lines don't stretch edge to edge
 /// on large monitors.
 class MaxWidthBox extends StatelessWidget {

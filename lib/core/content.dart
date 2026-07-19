@@ -31,10 +31,10 @@ class Company {
 
   static const String heroSubhead =
       'We source renewable energy hardware directly from trusted '
-      'manufacturers around the world, and make it reliably available to '
-      'installers, EPC companies and retailers across every market we '
-      'serve — with authentic products, honest pricing and a sourcing '
-      'network built to keep growing worldwide.';
+      'manufacturers worldwide, and make it reliably available to '
+      'installers, EPC companies and retailers in every market we serve. '
+      'Authentic products, honest pricing, and a sourcing network built '
+      'to keep growing across the globe.';
 
   static const String aboutIntro =
       'Solar PV HK Limited is a Hong Kong-based company launching in $founded '
@@ -56,6 +56,18 @@ class Company {
       'world-class manufacturers and the world\u2019s growing clean energy '
       'markets.';
 
+  static const String philosophyEyebrow = 'What we believe';
+  static const String philosophyTitle =
+      'A sustainable future, powered by the sun';
+  static const String philosophy =
+      'We’re part of a movement that envisions a sustainable, '
+      'community-driven future where humanity lives in harmony with '
+      'nature. It rejects climate doomerism by promoting optimism, '
+      'focusing on renewable energy, and embracing accessible technology '
+      'to build a better tomorrow. That’s the future we source for — '
+      'putting authentic solar hardware within everyone’s reach, '
+      'worldwide.';
+
   static const List<String> businessModel = [
     'Source renewable energy products and accessories directly from '
         'trusted manufacturers in China, Germany, the Netherlands and other '
@@ -76,63 +88,174 @@ class Company {
       detail: 'On-grid, off-grid and hybrid inverters for residential, '
           'commercial and industrial installations.',
       icon: 'inverter',
+      brand: 'Huawei',
+      overview:
+          'We supply Huawei solar inverters — one of the world’s most '
+          'trusted inverter brands. The Huawei SUN2000 range covers '
+          'residential, commercial and utility-scale projects, converting '
+          'the DC power from your solar panels into clean, grid-ready AC '
+          'power with industry-leading efficiency. Every unit is sourced '
+          'directly through verified channels, so you get authentic Huawei '
+          'hardware with genuine warranty support — never grey-market or '
+          'counterfeit stock.',
+      features: [
+        'Huawei SUN2000 series — residential, commercial and utility scale',
+        'On-grid, hybrid and storage-ready models',
+        'Peak efficiency up to ~98.6% for maximum energy harvest',
+        'Built-in smart monitoring and arc-fault (AFCI) protection',
+        'Compatible with Huawei LUNA battery storage',
+        'Authentic units with genuine manufacturer warranty',
+      ],
     ),
     ProductCategory(
       title: 'Tier 1 Solar Panels',
-      detail: 'Premium Tier 1 solar panels from world-renowned manufacturers, engineered for maximum efficiency, durability, and reliable energy production.',
+      detail: 'Premium Tier 1 solar panels from world-renowned '
+          'manufacturers, engineered for maximum efficiency, durability, '
+          'and reliable energy production.',
       icon: 'panel',
+      overview:
+          'We source Tier 1 solar panels from world-renowned manufacturers, '
+          'chosen for high efficiency, long-term durability and bankable '
+          'performance. Available in monocrystalline and bifacial options '
+          'to suit residential rooftops through to large ground-mount '
+          'plants.',
+      features: [
+        'Tier 1 manufacturers only',
+        'Monocrystalline and bifacial options',
+        'High efficiency for more energy per square metre',
+        'Strong performance and product warranties',
+      ],
     ),
     ProductCategory(
       title: 'Solar Mounting Structures',
       detail: 'Roof-top and ground-mount structures engineered for '
           'regional wind and load conditions.',
       icon: 'mount',
+      overview:
+          'Roof-top and ground-mount structures engineered for regional '
+          'wind and load conditions. Corrosion-resistant materials and '
+          'flexible configurations make installation faster and keep '
+          'arrays secure for decades.',
+      features: [
+        'Roof-top and ground-mount systems',
+        'Engineered for local wind and load conditions',
+        'Corrosion-resistant aluminium and steel',
+        'Fast, hardware-complete installation kits',
+      ],
     ),
     ProductCategory(
       title: 'DC Cables & Connectors',
       detail: 'Solar-grade DC cables and MC4 connectors built for '
           'outdoor durability.',
       icon: 'cable',
+      overview:
+          'Solar-grade DC cables and MC4 connectors built for years of '
+          'outdoor exposure — UV-resistant, weatherproof and rated for '
+          'high-current PV strings.',
+      features: [
+        'UV-resistant, weatherproof DC cabling',
+        'Genuine MC4-compatible connectors',
+        'High current and voltage ratings',
+        'Reliable, low-loss connections',
+      ],
     ),
     ProductCategory(
       title: 'Other Accessories',
       detail: 'Combiner boxes, circuit breakers, monitoring devices and '
           'related balance-of-system components.',
       icon: 'accessory',
+      overview:
+          'The balance-of-system components that complete an installation — '
+          'combiner boxes, circuit breakers, surge protection, monitoring '
+          'devices and more, all sourced to the same quality standard as '
+          'the rest of the system.',
+      features: [
+        'Combiner boxes and enclosures',
+        'Circuit breakers and surge protection',
+        'Monitoring and metering devices',
+        'Full balance-of-system range',
+      ],
     ),
     ProductCategory(
       title: 'Hybrid Controllers',
       detail: 'Hybrid solar charge controllers and power controllers built '
           'for seamless grid, battery and generator integration.',
       icon: 'controller',
+      overview:
+          'Hybrid solar charge and power controllers built for seamless '
+          'integration of grid, battery and generator sources — ideal for '
+          'off-grid and backup-power installations that need reliable, '
+          'automatic switching.',
+      features: [
+        'Seamless grid, battery and generator integration',
+        'MPPT charge control for maximum harvest',
+        'Ideal for off-grid and backup systems',
+        'Automatic, reliable source switching',
+      ],
     ),
     ProductCategory(
-      title: 'SCADA Monitoring',
-      detail: 'SCADA and remote monitoring systems for real-time plant '
-          'performance, fault detection and unattended operation.',
-      icon: 'scada',
+      title: 'Monitoring Systems',
+      detail: 'Remote monitoring systems for real-time plant performance, '
+          'fault detection and unattended operation.',
+      icon: 'monitoring',
+      overview:
+          'Remote monitoring systems that give you real-time visibility of '
+          'plant performance, automatic fault detection and alerts, so '
+          'sites can run unattended with confidence.',
+      features: [
+        'Real-time performance monitoring',
+        'Automatic fault detection and alerts',
+        'Remote, unattended operation',
+        'Historical data and reporting',
+      ],
     ),
   ];
 
-  static const List<SourcingCountry> sourcingCountries = [
-    SourcingCountry(
-      country: 'China',
-      detail: 'Cost-effective, high-volume solar panels, inverters, '
-          'mounting structures and accessories.',
+  static ProductCategory? productBySlug(String slug) {
+    for (final p in products) {
+      if (p.slugOrIcon == slug) return p;
+    }
+    return null;
+  }
+
+  static const List<SourcingRegion> sourcingRegions = [
+    SourcingRegion(
+      region: 'Asia',
+      examples: 'China · India · Bangladesh · Vietnam',
+      detail: 'Our largest supply base — cost-effective, high-volume '
+          'solar panels, inverters, mounting structures and accessories '
+          'from proven manufacturers.',
     ),
-    SourcingCountry(
-      country: 'Germany',
-      detail: 'Premium-quality inverters and engineering-grade '
-          'components.',
+    SourcingRegion(
+      region: 'Europe',
+      examples: 'Germany · Netherlands',
+      detail: 'Premium, engineering-grade inverters and components, plus '
+          'specialised cabling and accessories built to exacting '
+          'standards.',
     ),
-    SourcingCountry(
-      country: 'Netherlands',
-      detail: 'Specialised accessories and cabling solutions.',
+    SourcingRegion(
+      region: 'North America',
+      examples: 'USA · Canada',
+      detail: 'Advanced monitoring systems, high-efficiency modules and '
+          'balance-of-system components for demanding installations.',
     ),
-    SourcingCountry(
-      country: 'Worldwide Network',
-      detail: 'New sourcing countries added continuously as reliable '
-          'manufacturers are identified, extending our reach worldwide.',
+    SourcingRegion(
+      region: 'South America',
+      examples: 'Brazil · Chile',
+      detail: 'An emerging hub connecting fast-growing regional solar '
+          'markets to reliable, authentic hardware.',
+    ),
+    SourcingRegion(
+      region: 'Africa',
+      examples: 'Egypt · South Africa',
+      detail: 'Sourcing and distribution partners across one of the '
+          'world’s fastest-growing renewable energy regions.',
+    ),
+    SourcingRegion(
+      region: 'Oceania',
+      examples: 'Australia',
+      detail: 'Rugged, high-durability equipment suited to extreme '
+          'climates and strong off-grid demand.',
     ),
   ];
 
@@ -151,15 +274,14 @@ class Company {
         'and retailers worldwide.',
     'A full product range built around what solar and renewable energy '
         'projects actually need: inverters, panels, structures, cabling, '
-        'hybrid controllers, SCADA monitoring and accessories.',
+        'hybrid controllers, monitoring systems and accessories.',
     'A growing network, built from day one to serve and expand into new '
         'markets worldwide.',
   ];
 
   static const List<StatItem> stats = [
-    StatItem(value: founded, label: 'Founded'),
-    StatItem(value: '3+', label: 'Sourcing countries'),
-    StatItem(value: '7', label: 'Product categories'),
+    StatItem(value: '25+', label: 'Sourcing countries'),
+    StatItem(value: '7+', label: 'Product categories'),
     StatItem(value: 'HK \u2192 World', label: 'Global trade route'),
   ];
 
@@ -176,17 +298,47 @@ class ProductCategory {
   final String title;
   final String detail;
   final String icon;
+
+  /// URL slug for the detail page (/products/<slug>). Defaults to [icon].
+  final String? slug;
+
+  /// Featured brand shown on the detail page, if any (e.g. 'Huawei').
+  final String? brand;
+
+  /// Longer description shown on the detail page.
+  final String? overview;
+
+  /// Key selling points shown as a checklist on the detail page.
+  final List<String> features;
+
+  /// Optional dedicated detail-page image; falls back to the card image.
+  final String? detailImage;
+
   const ProductCategory({
     required this.title,
     required this.detail,
     required this.icon,
+    this.slug,
+    this.brand,
+    this.overview,
+    this.features = const [],
+    this.detailImage,
   });
+
+  String get slugOrIcon => slug ?? icon;
+  String get cardImage => 'assets/images/products/product_$icon.jpg';
+  String get heroImage => detailImage ?? cardImage;
 }
 
-class SourcingCountry {
-  final String country;
+class SourcingRegion {
+  final String region;
+  final String examples;
   final String detail;
-  const SourcingCountry({required this.country, required this.detail});
+  const SourcingRegion({
+    required this.region,
+    required this.examples,
+    required this.detail,
+  });
 }
 
 class StatItem {

@@ -247,8 +247,8 @@ class _ContactFormState extends ConsumerState<_ContactForm> {
   @override
   Widget build(BuildContext context) {
     // Whenever the controller's state changes, show the result and, on a
-    // successful/mailto outcome, clear the form — then hand the provider
-    // back to idle so this doesn't fire again on rebuild.
+    // successful submission, clear the form — then hand the provider back
+    // to idle so this doesn't fire again on rebuild.
     ref.listen<ContactFormState>(contactFormProvider, (previous, next) {
       if (next.status == SubmitStatus.idle || next.status == SubmitStatus.sending) {
         return;

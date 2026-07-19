@@ -1,0 +1,40 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isOwner(uid) {
+      return isSignedIn() && request.auth.uid == uid;
+    }
+
+    // Keep in sync with kAdminEmail in lib/core/chat_service.dart. Only
+    // this Firebase Auth email (signed in on /admin) can read every
+    // thread or send sender:'admin' messages.
+    function isAdmin() {
+      return isSignedIn() &&
+        request.auth.token.email == 'kawsar@scube.com.bd';
+    }
+
+    match /chats/{uid} {
+      allow read: if isOwner(uid) || isAdmin();
+      allow create: if isOwner(uid);
+      // Visitors may only ever update their own thread's "name" field
+      // (handled client-side); admin may update read/unread state.
+      allow update: if isOwner(uid) || isAdmin();
+      allow delete: if false;
+
+      match /messages/{messageId} {
+        allow read: if isOwner(uid) || isAdmin();
+        allow create: if (isOwner(uid) && request.resource.data.sender == 'visitor')
+                       || (isAdmin() && request.resource.data.sender == 'admin');
+        allow update, delete: if false;
+      }
+    }
+
+    // Everything else stays closed by default (no blanket allow rule).
+  }
+}

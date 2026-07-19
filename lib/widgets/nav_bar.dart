@@ -26,30 +26,44 @@ class NavBar extends StatelessWidget implements PreferredSizeWidget {
       child: MaxWidthBox(
         maxWidth: 1320,
         child: Row(
-          children: [
-            InkWell(
-              onTap: () => context.go('/home'),
-              child: const BrandLogo(size: 48),
-            ),
-            const Spacer(),
-            if (isDesktop) ...[
-              for (final item in Company.navItems)
-                _NavLink(
-                  item: item,
-                  isActive: currentPath == item.path ||
-                      currentPath.startsWith('${item.path}/'),
-                ),
-              const SizedBox(width: 16),
-              CtaButton.small(
-                label: 'Get In Touch',
-                onPressed: () => context.go('/contact'),
-              ),
-            ] else
-              IconButton(
-                icon: const Icon(Icons.menu_rounded, color: AppColors.ink),
-                onPressed: () => _openMobileMenu(context),
-              ),
-          ],
+          children: isDesktop
+              ? [
+                  InkWell(
+                    onTap: () => context.go('/home'),
+                    child: const BrandLogo(size: 48),
+                  ),
+                  const Spacer(),
+                  for (final item in Company.navItems)
+                    _NavLink(
+                      item: item,
+                      isActive: currentPath == item.path ||
+                          currentPath.startsWith('${item.path}/'),
+                    ),
+                  const SizedBox(width: 16),
+                  CtaButton.small(
+                    label: 'Get In Touch',
+                    onPressed: () => context.go('/contact'),
+                  ),
+                ]
+              : [
+                  // Menu on the left, like most mobile apps.
+                  SizedBox(
+                    width: 44,
+                    height: 44,
+                    child: IconButton(
+                      padding: EdgeInsets.zero,
+                      icon: const Icon(Icons.menu_rounded,
+                          color: AppColors.ink, size: 26),
+                      onPressed: () => _openMobileMenu(context),
+                    ),
+                  ),
+                  const SizedBox(width: 12),
+                  InkWell(
+                    onTap: () => context.go('/home'),
+                    child: const BrandLogo(size: 46),
+                  ),
+                  const Spacer(),
+                ],
         ),
       ),
     );
@@ -57,48 +71,148 @@ class NavBar extends StatelessWidget implements PreferredSizeWidget {
 
   void _openMobileMenu(BuildContext context) {
     final currentPath = GoRouterState.of(context).uri.path;
-    showModalBottomSheet(
+    showGeneralDialog(
       context: context,
-      backgroundColor: Colors.white,
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(top: Radius.circular(AppRadius.lg)),
-      ),
-      builder: (sheetContext) => SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 12),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Container(
-                width: 40,
-                height: 4,
-                decoration: BoxDecoration(
-                  color: AppColors.line,
-                  borderRadius: BorderRadius.circular(2),
-                ),
-              ),
-              const SizedBox(height: 8),
-              for (final item in Company.navItems)
-                ListTile(
-                  title: Text(
-                    item.label,
-                    style: TextStyle(
-                      fontWeight: currentPath == item.path
-                          ? FontWeight.w700
-                          : FontWeight.w500,
-                      color: currentPath == item.path
-                          ? AppColors.navy
-                          : AppColors.ink,
-                    ),
-                  ),
-                  onTap: () {
-                    Navigator.pop(sheetContext);
-                    context.go(item.path);
-                  },
-                ),
-              const SizedBox(height: 8),
-            ],
+      barrierDismissible: true,
+      barrierLabel: 'Menu',
+      barrierColor: Colors.black.withOpacity(0.4),
+      transitionDuration: const Duration(milliseconds: 260),
+      pageBuilder: (dialogContext, _, __) {
+        final width =
+            (MediaQuery.of(dialogContext).size.width * 0.82).clamp(0.0, 320.0);
+        return Align(
+          alignment: Alignment.centerLeft,
+          child: SizedBox(
+            width: width,
+            height: double.infinity,
+            child: _MobileDrawer(
+              currentPath: currentPath,
+              onClose: () => Navigator.of(dialogContext).pop(),
+              onNavigate: (path) {
+                Navigator.of(dialogContext).pop();
+                context.go(path);
+              },
+            ),
           ),
+        );
+      },
+      transitionBuilder: (context, anim, _, child) {
+        final curved = CurvedAnimation(parent: anim, curve: Curves.easeOutCubic);
+        return SlideTransition(
+          position: Tween<Offset>(begin: const Offset(-1, 0), end: Offset.zero)
+              .animate(curved),
+          child: child,
+        );
+      },
+    );
+  }
+}
+
+/// A right-side slide-in navigation drawer for phones — the pattern
+/// production apps use, instead of a bottom sheet.
+class _MobileDrawer extends StatelessWidget {
+  final String currentPath;
+  final ValueChanged<String> onNavigate;
+  final VoidCallback onClose;
+
+  const _MobileDrawer({
+    required this.currentPath,
+    required this.onNavigate,
+    required this.onClose,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Material(
+      color: Colors.white,
+      elevation: 16,
+      child: SafeArea(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            Padding(
+              padding: const EdgeInsets.fromLTRB(20, 12, 8, 12),
+              child: Row(
+                children: [
+                  const BrandLogo(size: 42),
+                  const Spacer(),
+                  IconButton(
+                    onPressed: onClose,
+                    icon: const Icon(Icons.close_rounded, color: AppColors.ink),
+                    tooltip: 'Close',
+                  ),
+                ],
+              ),
+            ),
+            const Divider(height: 1, color: AppColors.line),
+            const SizedBox(height: 8),
+            Expanded(
+              child: ListView(
+                padding: const EdgeInsets.symmetric(vertical: 4),
+                children: [
+                  for (final item in Company.navItems)
+                    _DrawerItem(
+                      label: item.label,
+                      active: currentPath == item.path ||
+                          currentPath.startsWith('${item.path}/'),
+                      onTap: () => onNavigate(item.path),
+                    ),
+                ],
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.fromLTRB(20, 8, 20, 20),
+              child: CtaButton(
+                label: 'Get In Touch',
+                icon: Icons.arrow_forward_rounded,
+                onPressed: () => onNavigate('/contact'),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class _DrawerItem extends StatelessWidget {
+  final String label;
+  final bool active;
+  final VoidCallback onTap;
+
+  const _DrawerItem({
+    required this.label,
+    required this.active,
+    required this.onTap,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+      onTap: onTap,
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
+        color: active ? AppColors.amber.withOpacity(0.10) : Colors.transparent,
+        child: Row(
+          children: [
+            Container(
+              width: 3,
+              height: 20,
+              margin: const EdgeInsets.only(right: 14),
+              decoration: BoxDecoration(
+                color: active ? AppColors.amber : Colors.transparent,
+                borderRadius: BorderRadius.circular(2),
+              ),
+            ),
+            Text(
+              label,
+              style: TextStyle(
+                fontWeight: active ? FontWeight.w700 : FontWeight.w500,
+                fontSize: 16,
+                color: active ? AppColors.navy : AppColors.ink,
+              ),
+            ),
+          ],
         ),
       ),
     );

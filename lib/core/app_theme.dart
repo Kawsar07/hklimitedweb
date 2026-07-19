@@ -1,5 +1,28 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
+
+/// Font family names, matching the `fonts:` entries registered in
+/// pubspec.yaml (assets/fonts/Sora-Variable.ttf, assets/fonts/Manrope-Variable.ttf).
+///
+/// These used to come from the `google_fonts` package (GoogleFonts.sora(),
+/// GoogleFonts.manrope()), which fetches the font file over the network the
+/// first time it's used and renders with a fallback font in the meantime.
+/// On Flutter *web* specifically, that fallback-then-swap is exactly what
+/// caused the "why it works" cards to overflow: the swap to the real font
+/// happens after first paint, and anything that had already fixed a card's
+/// height based on the fallback font's (different) text-wrapping ends up a
+/// line short once the real, usually-taller font swaps in.
+///
+/// Bundling the two font files locally removes the network fetch and the
+/// fallback-font window entirely — the correct font is active from the very
+/// first frame, on every device, every time, regardless of network speed.
+/// This is also Google's own recommendation for production Flutter web
+/// apps (see the "Self-hosting fonts" section of the google_fonts package
+/// README) rather than fetching from Google's CDN at runtime.
+class AppFonts {
+  AppFonts._();
+  static const String display = 'Sora'; // headings
+  static const String body = 'Manrope'; // paragraphs, labels
+}
 
 /// Design tokens for Solar PV HK Limited.
 ///
@@ -58,8 +81,8 @@ class AppTheme {
       ),
     );
 
-    final display = GoogleFonts.sora(); // display face — used for headings
-    final body = GoogleFonts.manrope(); // body face — quiet, legible
+    const display = TextStyle(fontFamily: AppFonts.display); // headings
+    const body = TextStyle(fontFamily: AppFonts.body); // paragraphs, labels
 
     return base.copyWith(
       textTheme: base.textTheme

@@ -18,7 +18,7 @@
 
   <meta charset="UTF-8">
   <meta content="IE=Edge" http-equiv="X-UA-Compatible">
-  <meta name="description" content="Solar PV HK Limited - Your trusted source for solar panels, inverters & renewable energy accessories in Bangladesh.">
+  <meta name="description" content="Solar PV HK Limited - A Hong Kong-based sourcing house for solar panels, inverters & renewable energy hardware, delivered worldwide.">
   <!-- iOS meta tags & icons -->
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
@@ -31,30 +31,14 @@
   <title>solar_pv_hk</title>
   <link rel="manifest" href="manifest.json">
 
-  <!-- Firebase -->
-  <script type="module">
-    // Import the functions you need from the SDKs you need
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-app.js";
-    import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-analytics.js";
-    // TODO: Add SDKs for Firebase products that you want to use
-    // https://firebase.google.com/docs/web/setup#available-libraries
-
-    // Your web app's Firebase configuration
-    // For Firebase JS SDK v7.20.0 and later, measurementId is optional
-    const firebaseConfig = {
-      apiKey: "AIzaSyDWRgoB9Ge-3jj6TCryipUxMTAyLfxJWlQ",
-      authDomain: "solarpvhk-96812.firebaseapp.com",
-      projectId: "solarpvhk-96812",
-      storageBucket: "solarpvhk-96812.firebasestorage.app",
-      messagingSenderId: "357297076336",
-      appId: "1:357297076336:web:4474d265296e3179f7dcb5",
-      measurementId: "G-626BL1FT93"
-    };
-
-    // Initialize Firebase
-    const app = initializeApp(firebaseConfig);
-    const analytics = getAnalytics(app);
-  </script>
+  <!--
+    Firebase is now initialized from Dart (lib/main.dart + lib/firebase_options.dart)
+    using this same project's config, so it can be shared by Firestore/Auth
+    (live chat) as well. A manual script-tag init here would create a
+    second, conflicting Firebase app instance, so it's intentionally not
+    duplicated. If you want Google Analytics back, add the
+    `firebase_analytics` Flutter package instead of a script tag.
+  -->
 </head>
 <body>
 <!--

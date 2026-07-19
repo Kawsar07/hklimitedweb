@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 IconData categoryIcon(String key) {
   switch (key) {
     case 'inverter':
-      return Icons.electrical_services_rounded;
+      return Icons.power_rounded;
     case 'panel':
       return Icons.solar_power_rounded;
     case 'mount':
@@ -11,11 +11,11 @@ IconData categoryIcon(String key) {
     case 'cable':
       return Icons.cable_rounded;
     case 'accessory':
-      return Icons.settings_input_component_rounded;
+      return Icons.handyman_rounded;
     case 'controller':
-      return Icons.tune_rounded;
-    case 'scada':
-      return Icons.monitor_heart_rounded;
+      return Icons.battery_charging_full_rounded;
+    case 'monitoring':
+      return Icons.monitor_outlined;
     default:
       return Icons.bolt_rounded;
   }

@@ -6,6 +6,7 @@ import '../core/responsive.dart';
 import '../widgets/cta_button.dart';
 import '../widgets/fade_slide_in.dart';
 import '../widgets/hover_builder.dart';
+import '../widgets/equal_height_grid.dart';
 import '../widgets/page_scaffold.dart';
 import '../widgets/section.dart';
 import '../widgets/sourcing_route.dart';
@@ -25,7 +26,7 @@ class HomePage extends StatelessWidget {
             children: [
               const SectionHeading(
                 eyebrow: 'How sourcing works',
-                title: 'One route, three manufacturing hubs',
+                title: 'One route, sourced worldwide',
                 subtitle: 'We built the sourcing network first, so you get '
                     'reliable supply from day one \u2014 not a promise to '
                     'figure it out later.',
@@ -37,6 +38,7 @@ class HomePage extends StatelessWidget {
           ),
         ),
         const _Highlights(),
+        const _Belief(),
         const _CtaBanner(),
       ],
     );
@@ -120,16 +122,68 @@ class _Hero extends StatelessWidget {
 
     return Container(
       width: double.infinity,
-      decoration: const BoxDecoration(
-        gradient: LinearGradient(
-          colors: [AppColors.navy, AppColors.navyDeep],
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-        ),
-      ),
-      padding: EdgeInsets.fromLTRB(hPad, isMobile ? 20 : 28, hPad, isMobile ? 32 : 56),
-      child: MaxWidthBox(
-        maxWidth: 1240,
+      color: AppColors.navy,
+      child: Stack(
+        children: [
+          Positioned.fill(
+            child: Image.asset(
+              'assets/images/hero_bg.jpg',
+              fit: BoxFit.cover,
+              filterQuality: FilterQuality.medium,
+              // The hero is a wide panorama. On desktop it fills a wide area,
+              // so decoding at the display width is enough. On a phone the hero
+              // is a tall portrait area, so cover-cropping scales the image up
+              // by its height — decoding at the screen width (~1200px) then
+              // left it looking soft. Decode at the image's native width there
+              // so it stays as sharp as the source allows.
+              cacheWidth: isMobile
+                  ? 1586
+                  : (MediaQuery.of(context).size.width *
+                          MediaQuery.of(context).devicePixelRatio)
+                      .round(),
+              // On a phone the hero is portrait, so a wide photo crops to a
+              // slice — centre it (road + panels + sun) rather than the far
+              // right edge. On desktop, feature the sun on the right.
+              alignment:
+                  isMobile ? Alignment.center : Alignment.centerRight,
+            ),
+          ),
+          // Scrim for legibility. On mobile the hero is tall and text sits
+          // over the whole image, so use an even top-to-bottom darkening;
+          // on desktop a lighter left-to-right scrim keeps the sun visible.
+          Positioned.fill(
+            child: DecoratedBox(
+              decoration: BoxDecoration(
+                gradient: isMobile
+                    ? LinearGradient(
+                        begin: Alignment.topCenter,
+                        end: Alignment.bottomCenter,
+                        colors: [
+                          AppColors.navy.withOpacity(0.80),
+                          AppColors.navy.withOpacity(0.58),
+                          AppColors.navy.withOpacity(0.66),
+                        ],
+                        stops: const [0.0, 0.5, 1.0],
+                      )
+                    : LinearGradient(
+                        begin: Alignment.centerLeft,
+                        end: Alignment.centerRight,
+                        colors: [
+                          AppColors.navy.withOpacity(0.92),
+                          AppColors.navy.withOpacity(0.74),
+                          AppColors.navy.withOpacity(0.34),
+                          AppColors.navy.withOpacity(0.05),
+                        ],
+                        stops: const [0.0, 0.4, 0.72, 1.0],
+                      ),
+              ),
+            ),
+          ),
+          Padding(
+            padding: EdgeInsets.fromLTRB(
+                hPad, isMobile ? 20 : 28, hPad, isMobile ? 32 : 56),
+            child: MaxWidthBox(
+              maxWidth: 1240,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -141,7 +195,7 @@ class _Hero extends StatelessWidget {
                 border: Border.all(color: Colors.white24),
               ),
               child: Text(
-                'HONG KONG \u00b7 LAUNCHING ${Company.founded}',
+                'SOLAR PV HK · WORLDWIDE',
                 style: const TextStyle(
                   color: AppColors.amber,
                   fontWeight: FontWeight.w700,
@@ -167,8 +221,24 @@ class _Hero extends StatelessWidget {
                 constraints: const BoxConstraints(maxWidth: 620),
                 child: Text(
                   Company.heroSubhead,
-                  style: const TextStyle(color: Colors.white70, fontSize: 16.5, height: 1.6),
+                  style: TextStyle(
+                      color: Colors.white.withOpacity(0.92),
+                      fontSize: 16.5,
+                      height: 1.6),
                 ),
+              ),
+            ),
+            const SizedBox(height: 20),
+            FadeSlideIn(
+              delay: const Duration(milliseconds: 130),
+              child: Wrap(
+                spacing: 10,
+                runSpacing: 10,
+                children: const [
+                  _HeroBadge(icon: Icons.verified_user_rounded, label: 'Authentic products'),
+                  _HeroBadge(icon: Icons.sell_rounded, label: 'Low prices'),
+                  _HeroBadge(icon: Icons.local_shipping_rounded, label: 'Faster delivery worldwide'),
+                ],
               ),
             ),
             const SizedBox(height: 24),
@@ -199,6 +269,42 @@ class _Hero extends StatelessWidget {
           ],
         ),
       ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _HeroBadge extends StatelessWidget {
+  final IconData icon;
+  final String label;
+  const _HeroBadge({required this.icon, required this.label});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+      decoration: BoxDecoration(
+        color: Colors.white.withOpacity(0.06),
+        borderRadius: BorderRadius.circular(20),
+        border: Border.all(color: Colors.white.withOpacity(0.16)),
+      ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Icon(icon, color: AppColors.amber, size: 15),
+          const SizedBox(width: 7),
+          Text(
+            label,
+            style: const TextStyle(
+              color: Colors.white,
+              fontSize: 12.5,
+              fontWeight: FontWeight.w600,
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
@@ -208,10 +314,16 @@ class _Highlights extends StatelessWidget {
 
   static const _items = [
     (
-      Icons.public_rounded,
-      'Multi-country sourcing',
-      'China, Germany and the Netherlands today \u2014 a network built to '
-          'keep expanding.',
+      Icons.verified_user_rounded,
+      'Authentic products, low prices',
+      'Every item is factory-sourced and genuine \u2014 competitive '
+          'pricing, with zero counterfeit risk.',
+    ),
+    (
+      Icons.local_shipping_rounded,
+      'Faster delivery worldwide',
+      'Established logistics routes get your order to you quickly, '
+          'wherever in the world you are.',
     ),
     (
       Icons.verified_rounded,
@@ -219,10 +331,10 @@ class _Highlights extends StatelessWidget {
       'We work only with manufacturers we would put our own name behind.',
     ),
     (
-      Icons.handshake_rounded,
-      'Built for the world',
-      'A single reliable point of contact for installers, EPCs and '
-          'retailers, wherever you are.',
+      Icons.public_rounded,
+      'Sourced worldwide',
+      'A growing global network of manufacturers \u2014 not tied to any '
+          'single country, and always expanding into new markets.',
     ),
   ];
 
@@ -238,21 +350,13 @@ class _Highlights extends StatelessWidget {
             align: TextAlign.center,
           ),
           const SizedBox(height: 28),
-          Wrap(
-            spacing: 24,
-            runSpacing: 24,
-            alignment: WrapAlignment.center,
+          EqualHeightGrid(
+            // 4 across on desktop (all cards, one row), 2 on tablet,
+            // 1 on mobile.
+            columnsForWidth: (w) => w >= 980 ? 4 : (w >= 620 ? 2 : 1),
             children: [
               for (final item in _items)
-                SizedBox(
-                  width: 340,
-                  height: 210,
-                  child: _HighlightCard(
-                    icon: item.$1,
-                    title: item.$2,
-                    body: item.$3,
-                  ),
-                ),
+                _HighlightCard(icon: item.$1, title: item.$2, body: item.$3),
             ],
           ),
         ],
@@ -276,7 +380,10 @@ class _HighlightCard extends StatelessWidget {
           duration: const Duration(milliseconds: 200),
           curve: Curves.easeOut,
           transform: Matrix4.translationValues(0, hovering ? -5 : 0, 0),
-          padding: const EdgeInsets.fromLTRB(24, 24, 24, 22),
+          padding: const EdgeInsets.fromLTRB(26, 26, 26, 22),
+          // No height/constraints here on purpose: EqualHeightGrid already
+          // stretches every card in a row to the same height (the tallest
+          // card's own real, measured height), so this always fits exactly.
           decoration: BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.circular(AppRadius.md),
@@ -292,33 +399,32 @@ class _HighlightCard extends StatelessWidget {
               ),
             ],
           ),
+          // mainAxisSize.max (default): the Column always fills the exact
+          // height the row hands this card. Title/body stay top-anchored;
+          // the Spacer below absorbs any leftover room (a shorter card in
+          // a row with a taller neighbour) so the amber accent bar still
+          // lines up at the same bottom position on every card in the row.
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Container(
-                    width: 46,
-                    height: 46,
-                    decoration: BoxDecoration(
-                      color: AppColors.reed.withOpacity(0.12),
-                      borderRadius: BorderRadius.circular(13),
-                    ),
-                    child: Icon(icon, color: AppColors.reed, size: 23),
-                  ),
-                  const SizedBox(width: 14),
-                  Expanded(
-                    child: Text(
-                      title,
-                      style: Theme.of(context).textTheme.titleLarge?.copyWith(fontSize: 17),
-                    ),
-                  ),
-                ],
+              Container(
+                width: 48,
+                height: 48,
+                decoration: BoxDecoration(
+                  color: AppColors.reed.withOpacity(0.12),
+                  shape: BoxShape.circle,
+                ),
+                child: Icon(icon, color: AppColors.reed, size: 23),
               ),
-              const SizedBox(height: 14),
+              const SizedBox(height: 16),
+              Text(
+                title,
+                style: Theme.of(context).textTheme.titleLarge?.copyWith(fontSize: 17),
+              ),
+              const SizedBox(height: 10),
               Text(body, style: Theme.of(context).textTheme.bodyMedium),
               const Spacer(),
+              const SizedBox(height: 16),
               Container(
                 height: 3,
                 width: hovering ? 40 : 22,
@@ -335,6 +441,67 @@ class _HighlightCard extends StatelessWidget {
   }
 }
 
+/// A quiet "what we believe" band — the brand's sustainability ethos,
+/// set on a dark panel between the highlights grid and the closing CTA.
+class _Belief extends StatelessWidget {
+  const _Belief();
+
+  @override
+  Widget build(BuildContext context) {
+    final isMobile = Responsive.isMobile(context);
+
+    return Section(
+      background: AppColors.navy,
+      child: FadeSlideIn(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Text(
+              Company.philosophyEyebrow.toUpperCase(),
+              textAlign: TextAlign.center,
+              style: const TextStyle(
+                color: AppColors.amber,
+                fontWeight: FontWeight.w700,
+                fontSize: 12.5,
+                letterSpacing: 1.4,
+              ),
+            ),
+            const SizedBox(height: 14),
+            ConstrainedBox(
+              constraints: const BoxConstraints(maxWidth: 760),
+              child: Text(
+                Company.philosophyTitle,
+                textAlign: TextAlign.center,
+                style: Theme.of(context).textTheme.headlineLarge?.copyWith(
+                      color: Colors.white,
+                      fontSize: isMobile ? 26 : 34,
+                    ),
+              ),
+            ),
+            const SizedBox(height: 18),
+            ConstrainedBox(
+              constraints: const BoxConstraints(maxWidth: 720),
+              child: Text(
+                Company.philosophy,
+                textAlign: TextAlign.center,
+                style: const TextStyle(
+                  color: Colors.white70,
+                  fontSize: 16.5,
+                  height: 1.7,
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+/// Compact closing CTA — a single slim strip instead of the tall boxed
+/// banner it replaces, so it doesn't eat a whole screen of height before
+/// the footer. One line on desktop (text + button side by side), stacks to
+/// a short two-line block only on narrow phones.
 class _CtaBanner extends StatelessWidget {
   const _CtaBanner();
 
@@ -342,57 +509,41 @@ class _CtaBanner extends StatelessWidget {
   Widget build(BuildContext context) {
     final isMobile = Responsive.isMobile(context);
     final hPad = Responsive.pagePadding(context);
+
+    final text = Text(
+      'Looking for reliable solar hardware, anywhere in the world?',
+      style: Theme.of(context).textTheme.titleLarge?.copyWith(
+            color: Colors.white,
+            fontSize: isMobile ? 17 : 20,
+          ),
+    );
+    final button = CtaButton(
+      label: 'Talk to Us',
+      icon: Icons.arrow_forward_rounded,
+      onPressed: () => context.go('/contact'),
+    );
+
     return Section(
       background: AppColors.navy,
       verticalPaddingOverride:
-          EdgeInsets.fromLTRB(hPad, isMobile ? 32 : 40, hPad, isMobile ? 32 : 40),
-      child: Container(
-        padding: EdgeInsets.all(isMobile ? 28 : 40),
-        decoration: BoxDecoration(
-          gradient: const LinearGradient(
-            colors: [AppColors.navyDeep, AppColors.navy],
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-          ),
-          borderRadius: BorderRadius.circular(AppRadius.lg),
-          border: Border.all(color: AppColors.amber.withOpacity(0.35)),
-          boxShadow: [
-            BoxShadow(
-              color: AppColors.amber.withOpacity(0.10),
-              blurRadius: 40,
-              offset: const Offset(0, 18),
+          EdgeInsets.fromLTRB(hPad, isMobile ? 28 : 32, hPad, isMobile ? 28 : 32),
+      child: isMobile
+          ? Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                text,
+                const SizedBox(height: 18),
+                button,
+              ],
+            )
+          : Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Expanded(child: text),
+                const SizedBox(width: 28),
+                button,
+              ],
             ),
-          ],
-        ),
-        child: Flex(
-          direction: isMobile ? Axis.vertical : Axis.horizontal,
-          crossAxisAlignment: isMobile ? CrossAxisAlignment.start : CrossAxisAlignment.center,
-          children: [
-            Container(
-              width: 52,
-              height: 52,
-              decoration: BoxDecoration(
-                color: AppColors.amber.withOpacity(0.14),
-                borderRadius: BorderRadius.circular(14),
-              ),
-              child: const Icon(Icons.bolt_rounded, color: AppColors.amber, size: 26),
-            ),
-            SizedBox(width: isMobile ? 0 : 22, height: isMobile ? 18 : 0),
-            Expanded(
-              child: Text(
-                  'Looking for reliable solar hardware & accessories, anywhere in the world?',
-                style: Theme.of(context).textTheme.headlineMedium?.copyWith(color: Colors.white),
-              ),
-            ),
-            SizedBox(width: isMobile ? 0 : 32, height: isMobile ? 24 : 0),
-            CtaButton(
-              label: 'Talk to Us',
-              icon: Icons.arrow_forward_rounded,
-              onPressed: () => context.go('/contact'),
-            ),
-          ],
-        ),
-      ),
     );
   }
 }

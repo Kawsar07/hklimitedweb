@@ -2,201 +2,220 @@ import 'package:flutter/material.dart';
 import '../core/app_theme.dart';
 import '../core/responsive.dart';
 
-/// The one signature graphic on the site: a literal trade route, since
-/// that is what this business actually does — it does not decorate the
-/// content, it *is* the content.
+/// "How sourcing works" as a numbered 01 · 02 · 03 process timeline — a
+/// clean step flow, kept deliberately different from the world map used on
+/// the Why Us page.
 class SourcingRoute extends StatelessWidget {
   const SourcingRoute({super.key});
+
+  static const List<_StepData> _steps = [
+    _StepData(
+      icon: Icons.public_rounded,
+      color: AppColors.reed,
+      title: 'Global sourcing',
+      subtitle: 'We buy directly from trusted manufacturers worldwide.',
+    ),
+    _StepData(
+      icon: Icons.hub_rounded,
+      color: AppColors.amber,
+      title: 'Hong Kong hub',
+      subtitle: 'Solar PV HK consolidates and quality-checks every order.',
+      emphasize: true,
+    ),
+    _StepData(
+      icon: Icons.local_shipping_rounded,
+      color: AppColors.amberDeep,
+      title: 'Global delivery',
+      subtitle: 'Shipped to installers, EPCs and retailers, worldwide.',
+    ),
+  ];
 
   @override
   Widget build(BuildContext context) {
     final isMobile = Responsive.isMobile(context);
-
-    final origins = const [
-      ('China', 'High-volume manufacturing'),
-      ('Germany', 'Engineering-grade quality'),
-      ('Netherlands', 'Specialised accessories'),
-      ('Expanding', 'New countries added worldwide'),
-    ];
-
-    final originNodes = [
-      for (final o in origins) _RouteNode(title: o.$1, subtitle: o.$2),
-    ];
-
-    final hub = _RouteNode(
-      title: 'Solar PV HK Limited',
-      subtitle: 'Hong Kong \u2014 sourcing hub',
-      emphasize: true,
-    );
-
-    final destination = _RouteNode(
-      title: 'Worldwide',
-      subtitle: 'Installers \u00b7 EPCs \u00b7 Retailers',
-      emphasize: false,
-      isDestination: true,
-    );
-
-    if (isMobile) {
-      return Column(
-        children: [
-          for (final n in originNodes) ...[n, const _RouteArrow(vertical: true)],
-          hub,
-          const _RouteArrow(vertical: true),
-          destination,
-        ],
-      );
-    }
-
-    // Centered, fixed-width composition — deliberately NOT stretched with
-    // Expanded, so the route reads as one compact diagram instead of
-    // spreading across the full section width with dead space in between.
-    return Center(
-      child: IntrinsicHeight(
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            SizedBox(
-              width: 208,
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  for (int i = 0; i < originNodes.length; i++) ...[
-                    originNodes[i],
-                    if (i != originNodes.length - 1) const SizedBox(height: 14),
-                  ],
-                ],
-              ),
-            ),
-            const _RouteArrow(vertical: false),
-            hub,
-            const _RouteArrow(vertical: false),
-            destination,
-          ],
-        ),
-      ),
+    return ConstrainedBox(
+      constraints: const BoxConstraints(maxWidth: 940),
+      child: isMobile ? const _VerticalSteps(_steps) : const _HorizontalSteps(_steps),
     );
   }
 }
 
-class _RouteNode extends StatelessWidget {
+class _StepData {
+  final IconData icon;
+  final Color color;
   final String title;
   final String subtitle;
   final bool emphasize;
-  final bool isDestination;
-
-  const _RouteNode({
+  const _StepData({
+    required this.icon,
+    required this.color,
     required this.title,
     required this.subtitle,
     this.emphasize = false,
-    this.isDestination = false,
   });
+}
+
+const double _badge = 68;
+
+class _HorizontalSteps extends StatelessWidget {
+  final List<_StepData> steps;
+  const _HorizontalSteps(this.steps);
 
   @override
   Widget build(BuildContext context) {
-    final bg = emphasize ? AppColors.amber : Colors.white;
-    final titleColor = emphasize ? AppColors.navy : AppColors.ink;
-
-    final badgeBg = emphasize ? AppColors.navy : AppColors.reed.withOpacity(0.12);
-    final badgeIconColor = emphasize ? AppColors.amber : AppColors.reed;
-
-    return Container(
-      width: 200,
-      margin: const EdgeInsets.symmetric(vertical: 6, horizontal: 4),
-      padding: const EdgeInsets.symmetric(vertical: 22, horizontal: 18),
-      decoration: BoxDecoration(
-        color: bg,
-        borderRadius: BorderRadius.circular(AppRadius.md),
-        border: Border.all(
-          color: emphasize ? AppColors.amberDeep : AppColors.line,
-          width: emphasize ? 1.6 : 1,
-        ),
-        boxShadow: emphasize
-            ? [
-                BoxShadow(
-                  color: AppColors.amber.withOpacity(0.32),
-                  blurRadius: 26,
-                  offset: const Offset(0, 12),
+    return LayoutBuilder(
+      builder: (context, c) {
+        final w = c.maxWidth;
+        return Stack(
+          children: [
+            // Connecting track, sitting behind the badges at their centre.
+            Positioned(
+              left: w / (steps.length * 2),
+              right: w / (steps.length * 2),
+              top: _badge / 2 - 1.5,
+              child: Container(
+                height: 3,
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(colors: [
+                    AppColors.reed.withOpacity(0.4),
+                    AppColors.amber,
+                    AppColors.amberDeep.withOpacity(0.6),
+                  ]),
+                  borderRadius: BorderRadius.circular(3),
                 ),
-              ]
-            : [
-                BoxShadow(
-                  color: AppColors.navy.withOpacity(0.05),
-                  blurRadius: 16,
-                  offset: const Offset(0, 8),
-                ),
+              ),
+            ),
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                for (final s in steps)
+                  Expanded(
+                    child: Column(
+                      children: [
+                        _Badge(data: s),
+                        const SizedBox(height: 16),
+                        _StepText(data: s),
+                      ],
+                    ),
+                  ),
               ],
-      ),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Container(
-            width: 44,
-            height: 44,
-            decoration: BoxDecoration(color: badgeBg, shape: BoxShape.circle),
-            child: Icon(
-              isDestination
-                  ? Icons.flag_rounded
-                  : emphasize
-                      ? Icons.hub_rounded
-                      : Icons.factory_rounded,
-              color: badgeIconColor,
-              size: 21,
             ),
+          ],
+        );
+      },
+    );
+  }
+}
+
+class _VerticalSteps extends StatelessWidget {
+  final List<_StepData> steps;
+  const _VerticalSteps(this.steps);
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        for (int i = 0; i < steps.length; i++) ...[
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              _Badge(data: steps[i]),
+              const SizedBox(width: 18),
+              Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.only(top: 6),
+                  child: _StepText(data: steps[i], alignStart: true),
+                ),
+              ),
+            ],
           ),
-          const SizedBox(height: 12),
-          Text(
-            title,
-            textAlign: TextAlign.center,
-            style: TextStyle(
-              fontWeight: FontWeight.w800,
-              fontSize: 15,
-              color: titleColor,
+          // Connector between steps, aligned under the badge centre.
+          if (i != steps.length - 1)
+            Padding(
+              padding: EdgeInsets.only(
+                  left: _badge / 2 - 1.5, top: 8, bottom: 8),
+              child: Container(
+                width: 3,
+                height: 26,
+                color: AppColors.amber.withOpacity(0.35),
+              ),
             ),
-          ),
-          const SizedBox(height: 5),
-          Text(
-            subtitle,
-            textAlign: TextAlign.center,
-            style: TextStyle(
-              fontSize: 12,
-              height: 1.4,
-              color: emphasize ? AppColors.navy.withOpacity(0.75) : AppColors.inkMuted,
-            ),
+        ],
+      ],
+    );
+  }
+}
+
+class _Badge extends StatelessWidget {
+  final _StepData data;
+  const _Badge({required this.data});
+
+  @override
+  Widget build(BuildContext context) {
+    final emphasize = data.emphasize;
+    return Container(
+      width: _badge,
+      height: _badge,
+      decoration: BoxDecoration(
+        color: emphasize ? data.color : Colors.white,
+        shape: BoxShape.circle,
+        border: Border.all(
+          color: emphasize ? data.color : data.color.withOpacity(0.35),
+          width: 2,
+        ),
+        boxShadow: [
+          BoxShadow(
+            color: data.color.withOpacity(emphasize ? 0.40 : 0.16),
+            blurRadius: emphasize ? 20 : 12,
+            offset: const Offset(0, 8),
           ),
         ],
+      ),
+      child: Icon(
+        data.icon,
+        color: emphasize ? AppColors.navy : data.color,
+        size: 30,
       ),
     );
   }
 }
 
-/// A short connecting line with an arrowhead — reads as a route segment
-/// rather than a generic navigation arrow.
-class _RouteArrow extends StatelessWidget {
-  final bool vertical;
-  const _RouteArrow({required this.vertical});
+class _StepText extends StatelessWidget {
+  final _StepData data;
+  final bool alignStart;
+  const _StepText({required this.data, this.alignStart = false});
 
   @override
   Widget build(BuildContext context) {
-    final line = Container(
-      width: vertical ? 2 : 18,
-      height: vertical ? 20 : 2,
-      color: AppColors.amber.withOpacity(0.45),
-    );
-    final icon = Icon(
-      vertical ? Icons.keyboard_arrow_down_rounded : Icons.keyboard_arrow_right_rounded,
-      color: AppColors.amber,
-      size: 20,
-    );
-
-    return Padding(
-      padding: EdgeInsets.symmetric(
-        vertical: vertical ? 2 : 0,
-        horizontal: vertical ? 0 : 2,
-      ),
-      child: vertical
-          ? Column(mainAxisSize: MainAxisSize.min, children: [line, icon])
-          : Row(mainAxisSize: MainAxisSize.min, children: [line, icon]),
+    final align = alignStart ? TextAlign.start : TextAlign.center;
+    return Column(
+      crossAxisAlignment:
+          alignStart ? CrossAxisAlignment.start : CrossAxisAlignment.center,
+      children: [
+        Text(
+          data.title,
+          textAlign: align,
+          style: const TextStyle(
+            fontWeight: FontWeight.w800,
+            fontSize: 16,
+            color: AppColors.ink,
+          ),
+        ),
+        const SizedBox(height: 6),
+        ConstrainedBox(
+          constraints: const BoxConstraints(maxWidth: 240),
+          child: Text(
+            data.subtitle,
+            textAlign: align,
+            style: const TextStyle(
+              fontSize: 13,
+              height: 1.5,
+              color: AppColors.inkMuted,
+            ),
+          ),
+        ),
+      ],
     );
   }
 }
