@@ -228,11 +228,21 @@ class _NavLink extends StatelessWidget {
   Widget build(BuildContext context) {
     return HoverBuilder(
       builder: (context, hovering) {
-        final color =
-            isActive || hovering ? AppColors.navy : AppColors.inkMuted;
+        // Active = navy; hovering an unselected tab warms to amber; otherwise
+        // muted. The colour/weight fades smoothly (no snapping).
+        final color = isActive
+            ? AppColors.navy
+            : (hovering ? AppColors.amberDeep : AppColors.inkMuted);
+
+        // Underline shows only on the active tab; it animates in/out smoothly
+        // on selection. Hovering an unselected tab never reveals it.
+        final underlineWidth = isActive ? 24.0 : 0.0;
 
         // Sized to the navbar's own height so the whole column (not just
-        // the text glyphs) is a reliable, full-height tap target.
+        // the text glyphs) is a reliable, full-height tap target. The label is
+        // vertically centred (so it lines up with the Get In Touch button) and
+        // the active underline sits as an overlay near the bottom, without
+        // nudging the text off-centre.
         return SizedBox(
           height: 76,
           child: InkWell(
@@ -242,26 +252,29 @@ class _NavLink extends StatelessWidget {
             highlightColor: AppColors.amber.withOpacity(0.05),
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 14),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
+              child: Stack(
+                alignment: Alignment.center,
                 children: [
-                  Text(
-                    item.label,
+                  AnimatedDefaultTextStyle(
+                    duration: const Duration(milliseconds: 200),
+                    curve: Curves.easeOut,
                     style: TextStyle(
                       color: color,
-                      fontWeight: FontWeight.w600,
+                      fontWeight:
+                          isActive ? FontWeight.w700 : FontWeight.w600,
                       fontSize: 14.5,
                     ),
+                    child: Text(item.label),
                   ),
-                  const SizedBox(height: 8),
-                  SizedBox(
-                    height: 3,
+                  Positioned(
+                    bottom: 18,
+                    left: 0,
+                    right: 0,
                     child: Center(
                       child: AnimatedContainer(
-                        duration: const Duration(milliseconds: 180),
-                        curve: Curves.easeOut,
-                        width: isActive ? 22 : 0,
+                        duration: const Duration(milliseconds: 240),
+                        curve: Curves.easeOutCubic,
+                        width: underlineWidth,
                         height: 3,
                         decoration: BoxDecoration(
                           color: AppColors.amber,

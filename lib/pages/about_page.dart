@@ -143,9 +143,9 @@ class _Intro extends StatelessWidget {
             label: 'Headquarters',
             value: 'Hong Kong'),
         _FactRow(
-            icon: Icons.event_rounded,
-            label: 'Launching',
-            value: '2026'),
+            icon: Icons.travel_explore_rounded,
+            label: 'Sourcing',
+            value: '25+ countries'),
         _FactRow(
             icon: Icons.public_rounded,
             label: 'Reach',

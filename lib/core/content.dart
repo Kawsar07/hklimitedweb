@@ -37,12 +37,12 @@ class Company {
       'to keep growing across the globe.';
 
   static const String aboutIntro =
-      'Solar PV HK Limited is a Hong Kong-based company launching in $founded '
-      'with one goal: make sourcing solar and renewable energy hardware '
-      'simple, anywhere in the world. Reliable, good-quality solar equipment '
-      'is still hard to find in many growing markets. We close that gap by '
-      'working directly with trusted manufacturers worldwide and putting '
-      'their products within easy reach of customers across the globe.';
+      'Solar PV HK Limited is a Hong Kong-based company with one goal: make '
+      'sourcing solar and renewable energy hardware simple, anywhere in the '
+      'world. Reliable, good-quality solar equipment is still hard to find in '
+      'many growing markets. We close that gap by working directly with '
+      'trusted manufacturers worldwide and putting their products within easy '
+      'reach of customers across the globe.';
 
   static const String mission =
       'Make renewable energy hardware sourcing simpler and more accessible '

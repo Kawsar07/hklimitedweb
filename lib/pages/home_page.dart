@@ -411,10 +411,10 @@ class _HighlightCard extends StatelessWidget {
                 width: 48,
                 height: 48,
                 decoration: BoxDecoration(
-                  color: AppColors.reed.withOpacity(0.12),
+                  color: AppColors.amber.withOpacity(0.14),
                   shape: BoxShape.circle,
                 ),
-                child: Icon(icon, color: AppColors.reed, size: 23),
+                child: Icon(icon, color: AppColors.amberDeep, size: 23),
               ),
               const SizedBox(height: 16),
               Text(

@@ -6,6 +6,7 @@ import '../core/content.dart';
 import '../core/responsive.dart';
 import '../providers/contact_form_provider.dart';
 import '../widgets/cta_button.dart';
+import '../widgets/hover_builder.dart';
 import '../widgets/page_scaffold.dart';
 import '../widgets/section.dart';
 
@@ -146,40 +147,97 @@ class _InfoRow extends StatelessWidget {
   final String label;
   final String value;
   final VoidCallback? onTap;
-  const _InfoRow({required this.icon, required this.label, required this.value, this.onTap});
+  const _InfoRow(
+      {required this.icon,
+      required this.label,
+      required this.value,
+      this.onTap});
 
   @override
   Widget build(BuildContext context) {
+    final tappable = onTap != null;
+
     return Padding(
-      padding: const EdgeInsets.only(bottom: 18),
-      child: InkWell(
-        onTap: onTap,
-        borderRadius: BorderRadius.circular(8),
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Container(
-              width: 40,
-              height: 40,
-              decoration: const BoxDecoration(color: AppColors.navy, shape: BoxShape.circle),
-              child: Icon(icon, color: AppColors.amber, size: 19),
-            ),
-            const SizedBox(width: 14),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+      padding: const EdgeInsets.only(bottom: 12),
+      child: HoverBuilder(
+        cursor: tappable ? SystemMouseCursors.click : MouseCursor.defer,
+        builder: (context, hovering) {
+          final active = tappable && hovering;
+          return GestureDetector(
+            onTap: onTap,
+            child: AnimatedContainer(
+              duration: const Duration(milliseconds: 180),
+              curve: Curves.easeOut,
+              padding: const EdgeInsets.all(16),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(AppRadius.md),
+                border: Border.all(
+                  color: active ? AppColors.amber : AppColors.line,
+                  width: active ? 1.4 : 1,
+                ),
+                boxShadow: active
+                    ? [
+                        BoxShadow(
+                          color: AppColors.navy.withOpacity(0.08),
+                          blurRadius: 18,
+                          offset: const Offset(0, 8),
+                        ),
+                      ]
+                    : [],
+              ),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Text(label, style: const TextStyle(color: AppColors.inkMuted, fontSize: 12.5)),
-                  const SizedBox(height: 2),
-                  Text(
-                    value,
-                    style: const TextStyle(color: AppColors.ink, fontWeight: FontWeight.w700, fontSize: 15),
+                  Container(
+                    width: 46,
+                    height: 46,
+                    decoration: BoxDecoration(
+                      color: AppColors.amber.withOpacity(0.14),
+                      borderRadius: BorderRadius.circular(AppRadius.sm),
+                    ),
+                    child: Icon(icon, color: AppColors.amberDeep, size: 22),
                   ),
+                  const SizedBox(width: 14),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          label.toUpperCase(),
+                          style: const TextStyle(
+                            color: AppColors.inkMuted,
+                            fontSize: 11.5,
+                            fontWeight: FontWeight.w700,
+                            letterSpacing: 0.6,
+                          ),
+                        ),
+                        const SizedBox(height: 3),
+                        Text(
+                          value,
+                          style: TextStyle(
+                            color: tappable ? AppColors.navy : AppColors.ink,
+                            fontWeight: FontWeight.w700,
+                            fontSize: 15,
+                            height: 1.35,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  if (tappable) ...[
+                    const SizedBox(width: 10),
+                    Icon(
+                      Icons.arrow_outward_rounded,
+                      size: 18,
+                      color: active ? AppColors.amberDeep : AppColors.inkMuted,
+                    ),
+                  ],
                 ],
               ),
             ),
-          ],
-        ),
+          );
+        },
       ),
     );
   }
